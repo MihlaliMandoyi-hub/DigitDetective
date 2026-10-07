@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="DigitDetective.AchievementsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:DigitDetective"
+    Shell.NavBarIsVisible="False">
+
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#1B1464" Offset="0.0" />
+            <GradientStop Color="#5B2BBE" Offset="1.0" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
+    <Grid RowDefinitions="Auto,*,Auto" Padding="20,24" RowSpacing="14">
+
+        <VerticalStackLayout Grid.Row="0" Spacing="0">
+            <Label Text="Achievements" FontSize="32" FontAttributes="Bold"
+                   TextColor="#FFD23F" HorizontalOptions="Center" />
+            <Label x:Name="ProgressLabel" Text="0 of 0 unlocked" FontSize="14"
+                   TextColor="#C9BDF5" HorizontalOptions="Center" />
+        </VerticalStackLayout>
+
+        <CollectionView x:Name="AchievementsList" Grid.Row="1">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="local:AchievementStatus">
+                    <Border BackgroundColor="White" StrokeThickness="0"
+                            StrokeShape="RoundRectangle 14" Margin="2,5" Padding="14,12"
+                            Opacity="{Binding CardOpacity}">
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14">
+                            <Label Grid.Column="0" Text="{Binding Icon}" FontSize="34"
+                                   VerticalOptions="Center" />
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                <Label Text="{Binding Title}" FontSize="17"
+                                       FontAttributes="Bold" TextColor="#1B1464" />
+                                <Label Text="{Binding Description}" FontSize="12"
+                                       TextColor="#555555" />
+                                <Label Text="{Binding StatusText}" FontSize="11"
+                                       TextColor="#8A7FB8" FontAttributes="Bold" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button Grid.Row="2" Text="Back to game" BackgroundColor="#FFD23F"
+                TextColor="#1B1464" FontAttributes="Bold" CornerRadius="16"
+                Clicked="OnBackClicked" />
+    </Grid>
+</ContentPage>

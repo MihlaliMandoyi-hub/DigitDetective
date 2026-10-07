@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="DigitDetective.AboutPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Shell.NavBarIsVisible="False">
+
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#1B1464" Offset="0.0" />
+            <GradientStop Color="#5B2BBE" Offset="1.0" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
+    <Grid RowDefinitions="Auto,*,Auto" Padding="20,20,20,16" RowSpacing="10">
+
+        <Label Grid.Row="0" Text="How to Play" FontSize="30" FontAttributes="Bold"
+               TextColor="#FFD23F" HorizontalOptions="Center" />
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="16">
+
+                <!-- Objective -->
+                <Border BackgroundColor="White" StrokeThickness="0" StrokeShape="RoundRectangle 14" Padding="14">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="🎯 The Goal" FontSize="17" FontAttributes="Bold" TextColor="#1B1464" />
+                        <Label Text="The app secretly picks a 3-digit code with three different digits. Guess the code by entering three different digits and pressing Guess. Keep guessing until you get all three in the right spot!"
+                               FontSize="13" TextColor="#333333" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Dots -->
+                <Border BackgroundColor="White" StrokeThickness="0" StrokeShape="RoundRectangle 14" Padding="14">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="🔴 Reading the Dots" FontSize="17" FontAttributes="Bold" TextColor="#1B1464" />
+                        <Label Text="After each guess, three dots appear under your digits - one per position:"
+                               FontSize="13" TextColor="#333333" />
+
+                        <HorizontalStackLayout Spacing="8">
+                            <Ellipse Fill="#2EE6C5" WidthRequest="14" HeightRequest="14" />
+                            <Label Text="Green - that digit is in the correct spot (a Hit)" FontSize="12" TextColor="#333333" />
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout Spacing="8">
+                            <Ellipse Fill="#FF5D73" WidthRequest="14" HeightRequest="14" />
+                            <Label Text="Pink - that digit is in the code but the wrong spot (a Match)" FontSize="12" TextColor="#333333" />
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout Spacing="8">
+                            <Ellipse Fill="#B9B4D6" WidthRequest="14" HeightRequest="14" />
+                            <Label Text="Grey - that digit isn't in the code at all" FontSize="12" TextColor="#333333" />
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Difficulty -->
+                <Border BackgroundColor="White" StrokeThickness="0" StrokeShape="RoundRectangle 14" Padding="14">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="🎚️ Difficulty Levels" FontSize="17" FontAttributes="Bold" TextColor="#1B1464" />
+                        <Label Text="Choose Easy, Normal, or Hard before you play, using the buttons at the top. Your choice decides how you earn hints (see below). It doesn't change the game itself - it changes how impressive your win needs to be to earn a reward."
+                               FontSize="13" TextColor="#333333" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Hints -->
+                <Border BackgroundColor="White" StrokeThickness="0" StrokeShape="RoundRectangle 14" Padding="14">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="💡 Earning and Using Hints" FontSize="17" FontAttributes="Bold" TextColor="#1B1464" />
+                        <Label Text="Win a game within your chosen difficulty's guess range, and you'll earn a hint for your NEXT game:"
+                               FontSize="13" TextColor="#333333" />
+                        <Label Text="•  Hard: win in 3 guesses or fewer" FontSize="12" TextColor="#333333" />
+                        <Label Text="•  Normal: win in 4 to 5 guesses" FontSize="12" TextColor="#333333" />
+                        <Label Text="•  Easy: win in 6 to 7 guesses" FontSize="12" TextColor="#333333" />
+                        <Label Text="Tap the 💡 Hint button during a game to spend one hint and reveal one digit of the current code. Unused hints carry over between games."
+                               FontSize="13" TextColor="#333333" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Ranks -->
+                <Border BackgroundColor="White" StrokeThickness="0" StrokeShape="RoundRectangle 14" Padding="14">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="🏆 Your Rank" FontSize="17" FontAttributes="Bold" TextColor="#1B1464" />
+                        <Label Text="Every win earns you a rank title based on how many guesses it took, shown on your win screen and saved next to your name on the leaderboard:"
+                               FontSize="13" TextColor="#333333" />
+                        <Label Text="•  Champion: 1 guess" FontSize="12" TextColor="#333333" />
+                        <Label Text="•  Master: 2 guesses" FontSize="12" TextColor="#333333" />
+                        <Label Text="•  Expert: 3 guesses" FontSize="12" TextColor="#333333" />
+                        <Label Text="•  Amateur: 4 to 6 guesses" FontSize="12" TextColor="#333333" />
+                        <Label Text="•  Rookie: 7 guesses or more" FontSize="12" TextColor="#333333" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Achievements -->
+                <Border BackgroundColor="White" StrokeThickness="0" StrokeShape="RoundRectangle 14" Padding="14">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="🎖️ Achievements" FontSize="17" FontAttributes="Bold" TextColor="#1B1464" />
+                        <Label Text="Special badges unlock automatically when you meet certain conditions. Check your progress at the top of the Leaderboard screen:"
+                               FontSize="13" TextColor="#333333" />
+                        <Label Text="🎯 First Guess Champion - win on your very first guess" FontSize="12" TextColor="#333333" />
+                        <Label Text="⚡ Quick Thinker - win in 3 guesses or fewer" FontSize="12" TextColor="#333333" />
+                        <Label Text="⏱️ Speed Demon - win in under 30 seconds" FontSize="12" TextColor="#333333" />
+                        <Label Text="🧠 Marathon Mind - win after 15 guesses or more" FontSize="12" TextColor="#333333" />
+                        <Label Text="🕵️ Dedicated Detective - win 10 games in total" FontSize="12" TextColor="#333333" />
+                        <Label Text="👑 Leaderboard Legend - reach #1 on the leaderboard" FontSize="12" TextColor="#333333" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Leaderboard -->
+                <Border BackgroundColor="White" StrokeThickness="0" StrokeShape="RoundRectangle 14" Padding="14">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="📋 Leaderboard" FontSize="17" FontAttributes="Bold" TextColor="#1B1464" />
+                        <Label Text="After a win, you can save your name, guess count, time, and rank to a local Top 10 leaderboard, sorted by fewest guesses, then fastest time. View it anytime from the main screen."
+                               FontSize="13" TextColor="#333333" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Sound -->
+                <Border BackgroundColor="White" StrokeThickness="0" StrokeShape="RoundRectangle 14" Padding="14">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="🔊 Sound" FontSize="17" FontAttributes="Bold" TextColor="#1B1464" />
+                        <Label Text="Background music plays while you play. Use the Sound switch at the top of the game screen to mute or unmute it anytime - your preference is remembered next time you open the app."
+                               FontSize="13" TextColor="#333333" />
+                    </VerticalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Button Grid.Row="2" Text="Back to game" BackgroundColor="#FFD23F"
+                TextColor="#1B1464" FontAttributes="Bold" CornerRadius="16"
+                Clicked="OnBackClicked" />
+    </Grid>
+</ContentPage>

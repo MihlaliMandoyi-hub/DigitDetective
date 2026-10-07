@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="DigitDetective.SplashPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Shell.NavBarIsVisible="False">
+
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#1B1464" Offset="0.0" />
+            <GradientStop Color="#5B2BBE" Offset="1.0" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
+    <Grid>
+        <AbsoluteLayout x:Name="FloatingLayer" InputTransparent="True" />
+
+        <VerticalStackLayout VerticalOptions="Center" Spacing="18" Padding="24">
+            <Image x:Name="TitleLabel" Source="digitdetective_logo.png"
+                   WidthRequest="280" HorizontalOptions="Center"
+                   Opacity="0" Scale="0.4" />
+
+            <Button x:Name="StartButton" Text="Start playing"
+                    BackgroundColor="#FFD23F" TextColor="#1B1464"
+                    FontSize="22" FontAttributes="Bold" CornerRadius="28"
+                    WidthRequest="240" HeightRequest="56"
+                    HorizontalOptions="Center" Margin="0,30,0,0"
+                    Opacity="0" Clicked="OnStartClicked" />
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

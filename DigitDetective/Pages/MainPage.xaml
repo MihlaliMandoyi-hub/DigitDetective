@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="DigitDetective.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:DigitDetective"
+    x:DataType="local:MainPage"
+    Shell.NavBarIsVisible="False">
+
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#1B1464" Offset="0.0" />
+            <GradientStop Color="#5B2BBE" Offset="1.0" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
+    <ContentPage.Resources>
+        <Color x:Key="Sun">#FFD23F</Color>
+        <Color x:Key="Coral">#FF5D73</Color>
+        <Color x:Key="Mint">#2EE6C5</Color>
+        <Color x:Key="Ink">#1B1464</Color>
+
+        <Style x:Key="KeyStyle" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="White" />
+            <Setter Property="TextColor" Value="{StaticResource Ink}" />
+            <Setter Property="FontSize" Value="26" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="CornerRadius" Value="16" />
+            <Setter Property="HeightRequest" Value="58" />
+            <Setter Property="Margin" Value="4" />
+        </Style>
+
+        <Style x:Key="SlotBorder" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="#33FFFFFF" />
+            <Setter Property="Stroke" Value="{StaticResource Sun}" />
+            <Setter Property="StrokeThickness" Value="3" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 18" />
+            <Setter Property="WidthRequest" Value="72" />
+            <Setter Property="HeightRequest" Value="84" />
+        </Style>
+
+        <Style x:Key="SlotLabel" TargetType="Label">
+            <Setter Property="FontSize" Value="42" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="HorizontalOptions" Value="Center" />
+            <Setter Property="VerticalOptions" Value="Center" />
+        </Style>
+
+        <Style x:Key="StatLabel" TargetType="Label">
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="HorizontalOptions" Value="Center" />
+        </Style>
+        <Style x:Key="StatCaption" TargetType="Label">
+            <Setter Property="TextColor" Value="#C9BDF5" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="HorizontalOptions" Value="Center" />
+        </Style>
+
+        <Style x:Key="DifficultyButtonStyle" TargetType="Button">
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="Padding" Value="10,4" />
+            <Setter Property="BorderWidth" Value="2" />
+        </Style>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,*,Auto,Auto"
+          Padding="16,16,16,12" RowSpacing="8">
+
+        <!-- Row 0: Difficulty selector and Hint button -->
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto" ColumnSpacing="6">
+            <HorizontalStackLayout Grid.Column="0" Spacing="6">
+                <Button x:Name="EasyButton" Text="Easy" Style="{StaticResource DifficultyButtonStyle}"
+                        Clicked="OnEasyClicked" />
+                <Button x:Name="NormalButton" Text="Normal" Style="{StaticResource DifficultyButtonStyle}"
+                        Clicked="OnNormalClicked" />
+                <Button x:Name="HardButton" Text="Hard" Style="{StaticResource DifficultyButtonStyle}"
+                        Clicked="OnHardClicked" />
+            </HorizontalStackLayout>
+
+            <Button x:Name="HintButton" Grid.Column="1" Text="💡 Hint (0)"
+                    FontSize="11" FontAttributes="Bold" CornerRadius="12" Padding="10,4"
+                    BackgroundColor="{StaticResource Sun}" TextColor="{StaticResource Ink}"
+                    Clicked="OnHintClicked" />
+        </Grid>
+
+        <!-- Row 1: Title -->
+        <VerticalStackLayout Grid.Row="1" Spacing="0">
+            <Label Text="Digit Detective" FontSize="30" FontAttributes="Bold"
+                   TextColor="{StaticResource Sun}" HorizontalOptions="Center" />
+            <Label Text="Crack the secret 3-digit code" FontSize="13"
+                   TextColor="#C9BDF5" HorizontalOptions="Center" />
+        </VerticalStackLayout>
+
+        <!-- Row 2: Stats -->
+        <Border Grid.Row="2" BackgroundColor="#26FFFFFF" StrokeThickness="0"
+                StrokeShape="RoundRectangle 16" Padding="8">
+            <Grid ColumnDefinitions="*,*,*,Auto">
+                <VerticalStackLayout Grid.Column="0">
+                    <Label x:Name="GuessesLabel" Text="0" Style="{StaticResource StatLabel}" />
+                    <Label Text="Guesses" Style="{StaticResource StatCaption}" />
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1">
+                    <Label x:Name="TimerLabel" Text="00:00" Style="{StaticResource StatLabel}" />
+                    <Label Text="Time" Style="{StaticResource StatCaption}" />
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="2">
+                    <Label x:Name="BestLabel" Text="-" Style="{StaticResource StatLabel}" />
+                    <Label Text="Best" Style="{StaticResource StatCaption}" />
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="3" VerticalOptions="Center">
+                    <Switch x:Name="SoundSwitch" IsToggled="True"
+                            OnColor="{StaticResource Mint}"
+                            ThumbColor="White"
+                            Toggled="OnSoundToggled" />
+                    <Label Text="Sound" Style="{StaticResource StatCaption}" />
+                </VerticalStackLayout>
+            </Grid>
+        </Border>
+
+        <!-- Row 3: Digit slots -->
+        <HorizontalStackLayout x:Name="SlotsRow" Grid.Row="3" Spacing="14"
+                               HorizontalOptions="Center">
+            <Border Style="{StaticResource SlotBorder}">
+                <Label x:Name="Slot0" Text="?" Style="{StaticResource SlotLabel}" />
+            </Border>
+            <Border Style="{StaticResource SlotBorder}">
+                <Label x:Name="Slot1" Text="?" Style="{StaticResource SlotLabel}" />
+            </Border>
+            <Border Style="{StaticResource SlotBorder}">
+                <Label x:Name="Slot2" Text="?" Style="{StaticResource SlotLabel}" />
+            </Border>
+        </HorizontalStackLayout>
+
+        <!-- Row 4: Feedback message -->
+        <Label x:Name="FeedbackLabel" Grid.Row="4"
+               Text="Tap three different digits, then press Guess."
+               TextColor="{StaticResource Mint}" FontSize="14" FontAttributes="Bold"
+               HorizontalTextAlignment="Center" />
+
+        <!-- Row 5: Guess history -->
+        <Border Grid.Row="5" BackgroundColor="#26FFFFFF" StrokeThickness="0"
+                StrokeShape="RoundRectangle 16">
+            <Grid RowDefinitions="Auto,Auto,*" Padding="8">
+                <Label Grid.Row="0" Text="Your guesses" TextColor="White"
+                       FontAttributes="Bold" Margin="6,0,0,2" />
+
+                <HorizontalStackLayout Grid.Row="1" Spacing="12" Margin="6,0,0,6">
+                    <HorizontalStackLayout Spacing="4">
+                        <Ellipse Fill="#2EE6C5" WidthRequest="12" HeightRequest="12" />
+                        <Label Text="Right spot" FontSize="10" TextColor="#C9BDF5" />
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Spacing="4">
+                        <Ellipse Fill="#FF5D73" WidthRequest="12" HeightRequest="12" />
+                        <Label Text="Wrong spot" FontSize="10" TextColor="#C9BDF5" />
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Spacing="4">
+                        <Ellipse Fill="#B9B4D6" WidthRequest="12" HeightRequest="12" />
+                        <Label Text="Not in code" FontSize="10" TextColor="#C9BDF5" />
+                    </HorizontalStackLayout>
+                </HorizontalStackLayout>
+
+                <CollectionView x:Name="HistoryList" Grid.Row="2">
+                    <CollectionView.EmptyView>
+                        <Label Text="No guesses yet - make your first move!"
+                               TextColor="#C9BDF5" HorizontalTextAlignment="Center"
+                               VerticalOptions="Center" />
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="local:GuessResult">
+                            <Border BackgroundColor="White" StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 12" Margin="2,3" Padding="12,8">
+                                <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="40,*,Auto" RowSpacing="4">
+                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding GuessNumber, StringFormat='#{0}'}"
+                                           TextColor="#8A7FB8" VerticalOptions="Center" />
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding Digits}"
+                                           TextColor="{StaticResource Ink}" FontSize="24"
+                                           FontAttributes="Bold" VerticalOptions="Center" />
+                                    <HorizontalStackLayout Grid.Row="0" Grid.Column="2" Spacing="6"
+                                                           VerticalOptions="Center">
+                                        <Label Text="{Binding Hits, StringFormat='{0} hit(s)'}"
+                                               BackgroundColor="{StaticResource Mint}"
+                                               TextColor="{StaticResource Ink}"
+                                               FontAttributes="Bold" Padding="8,4" />
+                                        <Label Text="{Binding Matches, StringFormat='{0} match(es)'}"
+                                               BackgroundColor="{StaticResource Sun}"
+                                               TextColor="{StaticResource Ink}"
+                                               FontAttributes="Bold" Padding="8,4" />
+                                    </HorizontalStackLayout>
+
+                                    <!-- Dots: one per digit position, lined up under the guessed digits -->
+                                    <HorizontalStackLayout Grid.Row="1" Grid.Column="1" Spacing="10" Margin="2,0,0,0">
+                                        <Ellipse Fill="{Binding Dot0Color}" WidthRequest="16" HeightRequest="16" />
+                                        <Ellipse Fill="{Binding Dot1Color}" WidthRequest="16" HeightRequest="16" />
+                                        <Ellipse Fill="{Binding Dot2Color}" WidthRequest="16" HeightRequest="16" />
+                                    </HorizontalStackLayout>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </Border>
+
+        <!-- Row 6: Keypad -->
+        <Grid Grid.Row="6" ColumnDefinitions="*,*,*"
+              RowDefinitions="Auto,Auto,Auto,Auto">
+            <Button Grid.Row="0" Grid.Column="0" Text="1" Style="{StaticResource KeyStyle}" Clicked="OnDigitClicked" />
+            <Button Grid.Row="0" Grid.Column="1" Text="2" Style="{StaticResource KeyStyle}" Clicked="OnDigitClicked" />
+            <Button Grid.Row="0" Grid.Column="2" Text="3" Style="{StaticResource KeyStyle}" Clicked="OnDigitClicked" />
+            <Button Grid.Row="1" Grid.Column="0" Text="4" Style="{StaticResource KeyStyle}" Clicked="OnDigitClicked" />
+            <Button Grid.Row="1" Grid.Column="1" Text="5" Style="{StaticResource KeyStyle}" Clicked="OnDigitClicked" />
+            <Button Grid.Row="1" Grid.Column="2" Text="6" Style="{StaticResource KeyStyle}" Clicked="OnDigitClicked" />
+            <Button Grid.Row="2" Grid.Column="0" Text="7" Style="{StaticResource KeyStyle}" Clicked="OnDigitClicked" />
+            <Button Grid.Row="2" Grid.Column="1" Text="8" Style="{StaticResource KeyStyle}" Clicked="OnDigitClicked" />
+            <Button Grid.Row="2" Grid.Column="2" Text="9" Style="{StaticResource KeyStyle}" Clicked="OnDigitClicked" />
+            <Button Grid.Row="3" Grid.Column="0" Text="Clear" FontSize="18"
+                    Style="{StaticResource KeyStyle}" BackgroundColor="{StaticResource Coral}"
+                    TextColor="White" Clicked="OnClearClicked" />
+            <Button Grid.Row="3" Grid.Column="1" Text="0" Style="{StaticResource KeyStyle}" Clicked="OnDigitClicked" />
+            <Button x:Name="GuessButton" Grid.Row="3" Grid.Column="2" Text="Guess" FontSize="18"
+                    Style="{StaticResource KeyStyle}" BackgroundColor="{StaticResource Sun}"
+                    Clicked="OnGuessClicked" />
+        </Grid>
+
+        <!-- Row 7: New game / Give up / Leaderboard -->
+        <Grid Grid.Row="7" ColumnDefinitions="*,*,*,Auto" ColumnSpacing="6">
+            <Button Grid.Column="0" Text="New game" BackgroundColor="Transparent"
+                    BorderColor="{StaticResource Mint}" BorderWidth="2"
+                    TextColor="{StaticResource Mint}" CornerRadius="16" FontSize="12"
+                    Clicked="OnNewGameClicked" />
+            <Button Grid.Column="1" Text="Give up" BackgroundColor="Transparent"
+                    BorderColor="{StaticResource Coral}" BorderWidth="2"
+                    TextColor="{StaticResource Coral}" CornerRadius="16" FontSize="12"
+                    Clicked="OnQuitClicked" />
+            <Button Grid.Column="2" Text="Leaderboard" BackgroundColor="Transparent"
+                    BorderColor="{StaticResource Sun}" BorderWidth="2"
+                    TextColor="{StaticResource Sun}" CornerRadius="16" FontSize="12"
+                    Clicked="OnLeaderboardClicked" />
+            <Button Grid.Column="3" Text="?" WidthRequest="44" BackgroundColor="Transparent"
+                    BorderColor="White" BorderWidth="2"
+                    TextColor="White" CornerRadius="16" FontSize="16" FontAttributes="Bold"
+                    Clicked="OnAboutClicked" />
+        </Grid>
+    </Grid>
+</ContentPage>

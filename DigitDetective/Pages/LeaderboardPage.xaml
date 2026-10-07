@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="DigitDetective.LeaderboardPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:DigitDetective"
+    Shell.NavBarIsVisible="False">
+
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#1B1464" Offset="0.0" />
+            <GradientStop Color="#5B2BBE" Offset="1.0" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
+    <Grid RowDefinitions="Auto,Auto,Auto,*,Auto" Padding="20,20,20,16" RowSpacing="10">
+
+        <VerticalStackLayout Grid.Row="0" Spacing="0">
+            <Label Text="Leaderboard" FontSize="30" FontAttributes="Bold"
+                   TextColor="#FFD23F" HorizontalOptions="Center" />
+            <Label Text="Top 10 fastest detectives" FontSize="13"
+                   TextColor="#C9BDF5" HorizontalOptions="Center" />
+        </VerticalStackLayout>
+
+        <!-- Achievements strip -->
+        <VerticalStackLayout Grid.Row="1" Spacing="4">
+            <Label x:Name="AchievementsProgressLabel" Text="Achievements - 0 of 0"
+                   FontSize="13" FontAttributes="Bold" TextColor="White"
+                   HorizontalOptions="Center" />
+
+            <CollectionView x:Name="AchievementsStrip"
+                            HeightRequest="96"
+                            ItemsLayout="HorizontalList"
+                            HorizontalScrollBarVisibility="Never">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="local:AchievementStatus">
+                        <Border BackgroundColor="#26FFFFFF" StrokeThickness="2"
+                                Stroke="{Binding IsUnlocked, Converter={StaticResource BoolToBorderColor}}"
+                                StrokeShape="RoundRectangle 14"
+                                WidthRequest="84" HeightRequest="88"
+                                Margin="4" Padding="6"
+                                Opacity="{Binding CardOpacity}">
+                            <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="4">
+                                <Label Text="{Binding Icon}" FontSize="28" HorizontalOptions="Center" />
+                                <Label Text="{Binding Title}" FontSize="9" TextColor="White"
+                                       HorizontalTextAlignment="Center"
+                                       LineBreakMode="TailTruncation" MaxLines="2" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+
+        <BoxView Grid.Row="2" HeightRequest="1" Color="#33FFFFFF" Margin="0,2,0,2" />
+
+        <CollectionView x:Name="EntriesList" Grid.Row="3">
+            <CollectionView.EmptyView>
+                <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                    <Label Text="No scores yet." TextColor="#C9BDF5" FontSize="16"
+                           HorizontalTextAlignment="Center" />
+                    <Label Text="Win a game to be the first on the board!"
+                           TextColor="#C9BDF5" FontSize="14"
+                           HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="local:RankedEntry">
+                    <Border BackgroundColor="White" StrokeThickness="0"
+                            StrokeShape="RoundRectangle 14" Margin="2,5" Padding="14,10">
+                        <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="10">
+                            <Label Grid.Column="0" Text="{Binding RankDisplay}"
+                                   FontSize="20" FontAttributes="Bold"
+                                   TextColor="#1B1464" VerticalOptions="Center"
+                                   WidthRequest="34" />
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                <Label Text="{Binding PlayerName}" FontSize="18"
+                                       FontAttributes="Bold" TextColor="#1B1464" />
+                                <Label Text="{Binding PlayerRank}" FontSize="12"
+                                       TextColor="#FF5D73" FontAttributes="Bold" />
+                                <Label Text="{Binding DateDisplay}" FontSize="11"
+                                       TextColor="#8A7FB8" />
+                            </VerticalStackLayout>
+                            <Label Grid.Column="2" Text="{Binding Guesses, StringFormat='{0} guesses'}"
+                                   BackgroundColor="#2EE6C5" TextColor="#1B1464"
+                                   FontAttributes="Bold" Padding="8,4"
+                                   VerticalOptions="Center" />
+                            <Label Grid.Column="3" Text="{Binding TimeDisplay}"
+                                   BackgroundColor="#FFD23F" TextColor="#1B1464"
+                                   FontAttributes="Bold" Padding="8,4"
+                                   VerticalOptions="Center" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Grid Grid.Row="4" ColumnDefinitions="*,*" ColumnSpacing="10">
+            <Button Grid.Column="0" Text="Clear scores" BackgroundColor="Transparent"
+                    BorderColor="#FF5D73" BorderWidth="2" TextColor="#FF5D73"
+                    CornerRadius="16" Clicked="OnClearClicked" />
+            <Button Grid.Column="1" Text="Back to game" BackgroundColor="#FFD23F"
+                    TextColor="#1B1464" FontAttributes="Bold" CornerRadius="16"
+                    Clicked="OnBackClicked" />
+        </Grid>
+    </Grid>
+</ContentPage>
